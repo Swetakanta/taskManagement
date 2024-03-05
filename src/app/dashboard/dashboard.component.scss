@@ -27,12 +27,22 @@
         width: 100%;
       }
       
-      .demo-button-container {
+      .filter-button-container {
+        width: 100%;
         padding-bottom: 16px;
-      }
-      
-      .demo-button + .demo-button {
-        margin-left: 8px;
+
+        .filter-container {
+          width: 60%;
+          float: left;
+        }
+        .button-container {
+          float: right;
+
+          .demo-button {
+            margin-left: 8px;
+            height: 56px;
+          }
+        }
       }
       
     }
@@ -43,6 +53,10 @@
       padding: 10px;
     }
 
-    
+  
+  }
+
+  .w-100 {
+    width: 100% !important;
   }
   

@@ -1,50 +1,59 @@
+import { StickyDirection } from '@angular/cdk/table';
 import { Component, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCommonModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import {MatTable, MatTableDataSource, MatTableModule} from '@angular/material/table';
+import {MatTable, MatTableModule} from '@angular/material/table';
+import { DatePipe } from '@angular/common';
+import { Router } from "@angular/router";
+
 
 export interface PeriodicElement {
   name: string;
   position: number;
-  weight: number;
-  symbol: string;
+  priority: string;
+  description: string;
+  duedate: Date;
+  status: string;
 }
 
 const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
+  {position: 1, name: 'Birthday', priority: 'P2', description: 'H', duedate: new Date(2024, 1, 17), status: 'To Do'},
+  {position: 2, name: 'Reminder', priority: 'P0', description: 'H', duedate: new Date(2024, 1, 17), status: 'To Do'},
+  {position: 3, name: 'Dinner Date', priority: 'P1', description: 'H', duedate: new Date(2024, 1, 17), status: 'To Do'},
+  {position: 4, name: 'Exam Preparation', priority: 'P2', description: 'H', duedate: new Date(2024, 1, 17), status: 'To Do'},
+  {position: 5, name: 'Office Party', priority: 'P4', description: 'H', duedate: new Date(2024, 1, 17), status: 'To Do'},
+  {position: 6, name: 'Atish House Inaguration', priority: 'P5', description: 'H', duedate: new Date(2024, 1, 17), status: 'To Do'},
+  {position: 7, name: 'Deployment Reminder', priority: 'P0', description: 'H', duedate: new Date(2024, 1, 17), status: 'To Do'},
+  {position: 8, name: 'Client Feedback', priority: 'P0', description: 'H', duedate: new Date(2024, 1, 17), status: 'To Do'},
+  {position: 9, name: 'New Requirment', priority: 'P0', description: 'H', duedate: new Date(2024, 1, 17), status: 'To Do'},
+  {position: 10, name: 'Electric Bill', priority: 'P0', description: 'H', duedate: new Date(2024, 1, 17), status: 'To Do'},
 ];
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [MatCommonModule, MatFormFieldModule, MatInputModule, MatIcon, MatButtonModule, MatTableModule],
+  imports: [MatCommonModule, MatFormFieldModule, MatInputModule, MatIcon, MatButtonModule, MatTableModule, DatePipe],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
 
 export class DashboardComponent {
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+
+  constructor(private router: Router){}
+[x: string]: any;
+dragDisabled = true;
+
+  displayedColumns: string[] = ['position', 'name', 'priority', 'description', 'duedate', 'status', 'action'];
   dataSource = [...ELEMENT_DATA];
 
   @ViewChild(MatTable)
   table!: MatTable<PeriodicElement>;
 
   addData() {
-    const randomElementIndex = Math.floor(Math.random() * ELEMENT_DATA.length);
-    this.dataSource.push(ELEMENT_DATA[randomElementIndex]);
-    this.table.renderRows();
+    this.router.navigate(['/tasks/add-task']);
   }
 
   removeData() {
