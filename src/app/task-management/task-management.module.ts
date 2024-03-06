@@ -2,7 +2,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { TaskFormComponent } from './task-form/task-form.component';
-import { TaskDetailComponent } from './task-detail/task-detail.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCommonModule, MatOption, MatOptionModule, provideNativeDateAdapter } from '@angular/material/core';
@@ -19,9 +18,9 @@ const routes: Routes = [
 ];
 
 @NgModule({
-    declarations: [TaskFormComponent, TaskDetailComponent],
+    declarations: [TaskFormComponent],
     providers: [provideNativeDateAdapter()],
     imports: [RouterModule.forChild(routes), MatFormFieldModule, MatCommonModule, MatFormFieldModule, MatInputModule, MatIcon, MatButtonModule, MatOptionModule, MatSelectModule, ReactiveFormsModule, MatOption, MatSelect, MatDatepickerModule, CommonModule], // Use 'forChild' for feature modules
-    exports: [TaskFormComponent, TaskDetailComponent]
+    exports: [TaskFormComponent]
 })
 export class TaskManagementModule { }
