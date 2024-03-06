@@ -63,7 +63,7 @@ export class DashboardComponent {
 
   deleteData(id: number) {
     this.dataSource.data = this.dataSource.data.filter((item: { id: number; }) => item.id !== id);
-    this.taskmanagementService.setTaskData(this.dataSource);
+    this.taskmanagementService.setTaskData(this.dataSource.data);
   }
 
   applyFilter(event: Event) {
