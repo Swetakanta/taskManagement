@@ -5,37 +5,167 @@
     border: 1px solid #ccc;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  
+
     .header {
-      margin-bottom: 20px;
-      display: flex;
-      flex-direction: row;
-      width: 100%;
-
-      .center {
+        margin-bottom: 20px;
         display: flex;
+        flex-direction: row;
         width: 100%;
-        align-items: center;
-        justify-content: center;
-      }
-      .float-right {
-        display: flex;
-        cursor: pointer;
-        margin-top: 9px;
-        width: 50px;
-        height: 50px;
-        font-size: 40px;
-        align-items: flex-end;
-        justify-content: flex-end;
-      }
-    }
-  
-    .task-list {
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      padding: 10px;
-      margin-bottom: 20px;
+
+        .center {
+            display: flex;
+            width: 100%;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .float-right {
+            display: flex;
+            cursor: pointer;
+            margin-top: 9px;
+            width: 50px;
+            height: 50px;
+            font-size: 40px;
+            align-items: flex-end;
+            justify-content: flex-end;
+        }
     }
 
-  
-  }
+    .task-list {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 10px;
+        margin-bottom: 20px;
+
+        $icon-wrap-width: 50px;
+
+        .parent-container {
+            margin: 10px;
+            .general-form-container {
+                .flex-wrap {
+                    width: 100%;
+                    display: flex;
+                    justify-content: space-between;
+
+                    .w-40 {
+                        width: 48%;
+                    }
+                    .w-100 {
+                        width: 100%;
+                    }
+                }
+
+                .button-container {
+                    display: flex;
+                    justify-content: center;
+
+                    .margin-wrap {
+                        margin: 20px;
+                    }
+                }
+            }
+        }
+
+        .size {
+            font-size: 20px;
+        }
+
+        .upper-heading {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .section-title {
+            font-weight: bold;
+            font-size: 16px;
+
+            @media (min-width: 767px) {
+                padding: 10px 0 0 21px;
+            }
+
+            @media (max-width: 767px) {
+                padding: 10px 0 10px 0;
+            }
+        }
+
+        /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
+        ::ng-deep .mat-tab-body-content {
+            overflow: hidden !important;
+        }
+
+        ::ng-deep mat-tab-group.mat-primary .mat-ink-bar,
+        .mat-mdc-tab-nav-bar.mat-primary .mat-ink-bar {
+            background-color: #70CA63 !important;
+        }
+
+        .btn-clr {
+            color: white;
+            font-size: 14px;
+            background-color: #70CA63;
+            line-height: 35px;
+            margin: 3px 0 0 0;
+        }
+
+        .btn-clr-cancel {
+            background-color: white;
+            width: 80px;
+            line-height: 35px;
+            margin: 5px 0 5px 5px;
+            color: black;
+            font-size: 14px;
+        }
+
+        .btn-clr-save {
+            background-color: #70CA63;
+            width: 80px;
+            line-height: 35px;
+            margin: 5px 5px 5px 0;
+            color: white;
+            font-size: 14px;
+        }
+
+        /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
+        ::ng-deep.mat-form-field-flex>.mat-form-field-infix {
+            padding: 0.4em 0 !important;
+        }
+
+        /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
+        ::ng-deep.mat-form-field-label-wrapper {
+            top: -1.5em !important;
+        }
+
+        /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
+        ::ng-deep.mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+            transform: translateY(-1.1em) scale(.75) !important;
+            width: 133.33333% !important;
+        }
+
+        @media (max-width: 767px) {
+            ::ng-deep .mat-mdc-form-field {
+                width: 100% !important;
+            }
+        }
+
+        .mat-font {
+            font-size: 32px;
+            margin: -8px 12px 0 0;
+        }
+
+        .clr:hover {
+            color: #70CA63;
+            cursor: pointer;
+        }
+
+        .btn-clr-save:disabled {
+            opacity: 0.5;
+        }
+
+        .disabled {
+            pointer-events: none;
+            opacity: 0.8;
+        }
+
+    }
+
+
+}

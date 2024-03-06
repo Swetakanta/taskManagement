@@ -1,21 +1,65 @@
 <div class="dashboard">
   <div class="header">
-      <h1 class="center">Add Task Form</h1>
-      <mat-icon class="float-right" (click)="redirectToDashboard()">backspace</mat-icon>
+    <h1 *ngIf="editEnabled" class="center">Edit Task Form</h1>
+    <h1 *ngIf="!editEnabled" class="center">Add Task Form</h1>
+    <mat-icon class="float-right" (click)="redirectToDashboard()">backspace</mat-icon>
   </div>
   <div class="task-list">
-    <!-- <form>
-      <mat-form-field appearance="fill">
-        <mat-label>Title</mat-label>
-        <input matInput placeholder="Enter title">
-      </mat-form-field>
-    
-      <mat-form-field appearance="fill">
-        <mat-label>Description</mat-label>
-        <textarea matInput placeholder="Enter description"></textarea>
-      </mat-form-field>
-    
-      <button mat-raised-button color="primary">Submit</button>
-    </form> -->
+    <div class="parent-container">
+      <form [formGroup]="addEditGeneralSiteDetails">
+        <div class="general-form-container">
+          <div class="flex-wrap">
+            <mat-form-field appearance="outline" class="w-40">
+              <mat-label>{{ 'Task Name'}}</mat-label>
+              <input formControlName="name" matInput required>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="w-40">
+              <mat-label>{{ 'Priority'}}</mat-label>
+              <mat-select formControlName="priority" panelClass="site-panel" required>
+                @for (item of priorityData; track item) {
+                <mat-option [value]="item">{{item}}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="flex-wrap">
+            <mat-form-field appearance="outline" class="w-40">
+              <mat-label>{{ 'Status'}}</mat-label>
+              <mat-select formControlName="status" panelClass="site-panel" required>
+                @for (item of statusOptionData; track item) {
+                <mat-option [value]="item">{{item}}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="w-40">
+              <mat-label>{{ 'Due Date'}}</mat-label>
+              <input formControlName="dueDate" matInput [matDatepicker]="picker" required>
+              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="flex-wrap">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>{{ 'Description' }}</mat-label>
+              <textarea formControlName="description" matInput required></textarea>
+            </mat-form-field>            
+          </div>
+          <div class="button-container">
+            <div class="margin-wrap">
+              <div class="example-button-row">
+                <button class="btn-clr-cancel" mat-raised-button (click)="redirectToDashboard()">Cancel
+                </button>
+              </div>
+            </div>
+            <div class="margin-wrap">
+              <div class=" example-button-row" [ngClass]="{disabled : !addEditGeneralSiteDetails.valid}">
+                <button *ngIf="editEnabled" type="submit" class="btn-clr-save" [disabled]="!addEditGeneralSiteDetails.valid" mat-raised-button (click)="updateTask()">Update</button>
+                <button *ngIf="!editEnabled" type="submit" class="btn-clr-save" [disabled]="!addEditGeneralSiteDetails.valid" mat-raised-button (click)="addNewtask()">Add</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
   </div>
 </div>

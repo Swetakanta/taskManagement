@@ -1,68 +1,74 @@
-import { StickyDirection } from '@angular/cdk/table';
 import { Component, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCommonModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import {MatTable, MatTableModule} from '@angular/material/table';
+import { MatTable, MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { DatePipe } from '@angular/common';
 import { Router } from "@angular/router";
-
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  priority: string;
-  description: string;
-  duedate: Date;
-  status: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Birthday', priority: 'P2', description: 'H', duedate: new Date(2024, 1, 17), status: 'To Do'},
-  {position: 2, name: 'Reminder', priority: 'P0', description: 'H', duedate: new Date(2024, 1, 17), status: 'To Do'},
-  {position: 3, name: 'Dinner Date', priority: 'P1', description: 'H', duedate: new Date(2024, 1, 17), status: 'To Do'},
-  {position: 4, name: 'Exam Preparation', priority: 'P2', description: 'H', duedate: new Date(2024, 1, 17), status: 'To Do'},
-  {position: 5, name: 'Office Party', priority: 'P4', description: 'H', duedate: new Date(2024, 1, 17), status: 'To Do'},
-  {position: 6, name: 'Atish House Inaguration', priority: 'P5', description: 'H', duedate: new Date(2024, 1, 17), status: 'To Do'},
-  {position: 7, name: 'Deployment Reminder', priority: 'P0', description: 'H', duedate: new Date(2024, 1, 17), status: 'To Do'},
-  {position: 8, name: 'Client Feedback', priority: 'P0', description: 'H', duedate: new Date(2024, 1, 17), status: 'To Do'},
-  {position: 9, name: 'New Requirment', priority: 'P0', description: 'H', duedate: new Date(2024, 1, 17), status: 'To Do'},
-  {position: 10, name: 'Electric Bill', priority: 'P0', description: 'H', duedate: new Date(2024, 1, 17), status: 'To Do'},
-];
+import { TaskmanagementService } from '../task-management/task-management.service';
+import { PeriodicElement } from '../task-management/task-management.model';
+import {LiveAnnouncer} from '@angular/cdk/a11y';
+import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [MatCommonModule, MatFormFieldModule, MatInputModule, MatIcon, MatButtonModule, MatTableModule, DatePipe],
+  imports: [MatCommonModule, MatFormFieldModule, MatInputModule, MatIcon, MatButtonModule, MatTableModule, DatePipe, MatSortModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
 
 export class DashboardComponent {
 
-  constructor(private router: Router){}
-[x: string]: any;
-dragDisabled = true;
+  constructor(private router: Router, private taskmanagementService: TaskmanagementService, private _liveAnnouncer: LiveAnnouncer) { }
+  [x: string]: any;
+  dragDisabled = true;
 
-  displayedColumns: string[] = ['position', 'name', 'priority', 'description', 'duedate', 'status', 'action'];
-  dataSource = [...ELEMENT_DATA];
+  displayedColumns: string[] = ['position', 'name', 'priority', 'description', 'dueDate', 'status', 'action'];
+  dataSource: any;
 
   @ViewChild(MatTable)
   table!: MatTable<PeriodicElement>;
+
+  @ViewChild(MatSort)
+  sort: MatSort = new MatSort;
+
+  ngOnInit(): void {
+    this.dataSource = new MatTableDataSource(this.taskmanagementService.getTaskData());
+    console.log(this.dataSource);
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
+  }
+
+  announceSortChange(sortState: Sort) {
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
+    }
+  }
 
   addData() {
     this.router.navigate(['/tasks/add-task']);
   }
 
-  removeData() {
-    this.dataSource.pop();
-    this.table.renderRows();
+  editData(id: any) {
+    this.router.navigate(['/tasks/edit-task']);
+    localStorage.setItem("editedId", id);
+  }
+
+  deleteData(id: number) {
+    this.dataSource.data = this.dataSource.data.filter((item: { id: number; }) => item.id !== id);
+    this.taskmanagementService.setTaskData(this.dataSource);
   }
 
   applyFilter(event: Event) {
-  
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
 }
